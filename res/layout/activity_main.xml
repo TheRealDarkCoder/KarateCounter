@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/editTextMinute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:hint="@string/hint_minute"
+        android:inputType="number"
+        android:maxLength="20"
+        android:maxLines="1"
+        android:minEms="5"
+        android:textColor="@color/colorYellow"
+        android:textColorHint="@color/colorYellow"
+        android:paddingTop="360dp"
+        android:paddingLeft="24dp"/>
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textViewTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00:00"
+        android:textColor="@color/colorYellow"
+        android:textSize="40sp"
+        android:paddingTop="120dp"/>
+
+    <ImageView
+        android:id="@+id/imageViewReset"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/textViewTime"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/icon_reset"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/imageViewStartStop"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="350dp"
+        android:src="@drawable/icon_start"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Timer Start"
+        android:id="@+id/TimerStart"/>
+
+    <Button
+        android:id="@+id/TimerStop"
+        android:layout_below="@id/TimerStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Timer Stop" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TimerStop"
+        android:text="Timer Pause"
+        android:id="@+id/TimerPause"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Timer Resume"
+        android:id="@+id/TimerResume"
+        android:layout_below="@id/TimerPause"/>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_weight="1">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Aka"
+        android:gravity="center_horizontal"
+        android:padding="16dp"
+        android:textSize="14sp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="#000000"
+        android:background="#ff0000"/>
+
+    <TextView
+        android:id="@+id/team_a_score"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:gravity="center_horizontal"
+        android:textSize="56sp"
+        android:textColor="#000000"
+        android:fontFamily="sans-serif-light"/>
+
+    <Button
+        android:id="@+id/three_points"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ippon"
+        android:onClick="threePointsTeamA"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/two_points"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Waza ari"
+        android:layout_marginRight="24dp"
+        android:layout_marginLeft="24dp"
+        android:onClick="twoPointsTeamA"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/one_points"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Yuko"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="onePointTeamA"/>
+
+
+</LinearLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"
+        android:layout_centerHorizontal="true" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ao"
+            android:gravity="center_horizontal"
+            android:padding="16dp"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="#000000"
+            android:background="#002afb"
+            />
+
+        <TextView
+            android:id="@+id/team_b_score"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:gravity="center_horizontal"
+            android:textSize="56sp"
+            android:textColor="#000000"
+            android:fontFamily="sans-serif-light"/>
+
+        <Button
+            android:id="@+id/three_pointsB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ippon"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="8dp"
+            android:onClick="threePointsTeamB"/>
+
+        <Button
+            android:id="@+id/two_pointsB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Waza ari"
+            android:onClick="twoPointsTeamB"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="8dp"/>
+
+        <Button
+            android:id="@+id/one_pointsB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Yuko"
+            android:onClick="onePointTeamB"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="8dp"/>
+    </LinearLayout>
+</LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reset Score"
+            android:layout_gravity="bottom"
+            android:onClick="resetScore"
+            android:layout_marginBottom="32dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
