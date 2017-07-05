@@ -1,30 +1,299 @@
 package com.example.android.courtcounter;
 
+import android.app.Activity;
+import android.app.IntentService;
+import android.app.Notification;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
+
+//additional imported classes
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
+import android.os.CountDownTimer;
+import android.view.View;
+import android.view.View.OnClickListener;
+import java.util.concurrent.TimeUnit;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+public class MainActivity extends Activity {
     int scoreTeamA = 0;
-    int scoreTeamB = 0;
+    int scoreTeamB = 0; //placeholder variable for scores
+
+    //Declare a variable to hold count down timer's paused status
+    private boolean isPaused = false;
+    //Declare a variable to hold count down timer's paused status
+    private boolean isCanceled = false;
+
+    //Declare a variable to hold CountDownTimer remaining time
+    private long timeRemaining = 0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // method call to initialize the views
-        initViews();
-        // method call to initialize the listeners
-        initListeners();
+        //Get reference of the XML layout's widgets
+        final TextView tView = (TextView) findViewById(R.id.tv);
+        final Button btnStart = (Button) findViewById(R.id.btn_start);
+        final Button btnPause = (Button) findViewById(R.id.btn_pause);
+        final Button btnResume = (Button) findViewById(R.id.btn_resume);
+        final Button btnCancel = (Button) findViewById(R.id.btn_cancel);
+        final Button three_points = (Button) findViewById(R.id.three_points);
+        final Button two_points = (Button) findViewById(R.id.two_points);
+        final Button one_points = (Button) findViewById(R.id.one_points);
+        final Button three_pointsB = (Button) findViewById(R.id.three_pointsB);
+        final Button two_pointsB = (Button) findViewById(R.id.one_pointsB);
+        final Button one_pointsB = (Button) findViewById(R.id.two_pointsB);
+        final EditText time = (EditText) findViewById(R.id.time);
+
+
+        //Initially disabled the pause, resume, cancel and points buttons
+        btnPause.setEnabled(false);
+        btnResume.setEnabled(false);
+        btnCancel.setEnabled(false);
+        three_points.setEnabled(false);
+        one_points.setEnabled(false);
+        two_points.setEnabled(false);
+        three_pointsB.setEnabled(false);
+        one_pointsB.setEnabled(false);
+        two_pointsB.setEnabled(false);
+
+
+        //Set a Click Listener for start button
+        btnStart.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View v){
+
+                isPaused = false;
+                isCanceled = false;
+                //Disable the start and pause button
+
+                //Enabled other buttona
+
+                btnStart.setEnabled(false);
+                btnResume.setEnabled(false);
+                btnPause.setEnabled(true);
+                btnCancel.setEnabled(true);
+                three_points.setEnabled(false);
+                one_points.setEnabled(false);
+                two_points.setEnabled(false);
+                three_pointsB.setEnabled(false);
+                one_pointsB.setEnabled(false);
+                two_pointsB.setEnabled(false);
+
+                CountDownTimer timer;
+
+
+                int millisInFuture = Integer.parseInt( time.getText().toString()) * 60000; //converts the minute into ms
+                long countDownInterval = 1000; //1 second
+
+
+                //Initialize a new CountDownTimer instance
+                timer = new CountDownTimer(millisInFuture,countDownInterval){
+                    public void onTick(long millisUntilFinished){
+                        //do something in every tick
+                        if(isPaused || isCanceled)
+                        {
+                            //If the user request to cancel or paused the
+                            //CountDownTimer we will cancel the current instance
+                            cancel();
+                        }
+                        else {
+                            //Display the remaining seconds to app interface
+                            //1 second = 1000 milliseconds
+                            tView.setText("" + millisUntilFinished / 1000 + " seconds");
+                            //Put count down timer remaining time in a variable
+                            timeRemaining = millisUntilFinished;
+                        }
+                    }
+                    public void onFinish(){
+                        //Do something when count down finished
+                        tView.setText("Done");
+
+                        //Enable the start button
+                        btnStart.setEnabled(true);
+                        //Disable other buttons
+                        btnPause.setEnabled(false);
+                        btnResume.setEnabled(false);
+                        btnCancel.setEnabled(false);
+                        three_points.setEnabled(false);
+                        one_points.setEnabled(false);
+                        two_points.setEnabled(false);
+                        three_pointsB.setEnabled(false);
+                        one_pointsB.setEnabled(false);
+                        two_pointsB.setEnabled(false);
+                    }
+                }.start();
+            }
+        });
+
+        //Set a Click Listener for pause button
+        btnPause.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View v){
+                //When user request to pause the CountDownTimer
+                isPaused = true;
+
+                //Enable the other buttons
+                btnResume.setEnabled(true);
+                btnCancel.setEnabled(true);
+                three_points.setEnabled(true);
+                one_points.setEnabled(true);
+                two_points.setEnabled(true);
+                three_pointsB.setEnabled(true);
+                one_pointsB.setEnabled(true);
+                two_pointsB.setEnabled(true);
+
+                //Disable the start and pause button
+                btnStart.setEnabled(false);
+                btnPause.setEnabled(false);
+
+            }
+        });
+
+        //Set a Click Listener for resume button
+        btnResume.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View v){
+                //Disable the other buttons
+                btnStart.setEnabled(false);
+                btnResume.setEnabled(false);
+                three_points.setEnabled(false);
+                one_points.setEnabled(false);
+                two_points.setEnabled(false);
+                three_pointsB.setEnabled(false);
+                one_pointsB.setEnabled(false);
+                two_pointsB.setEnabled(false);
+                //Enable the pause and cancel button
+                btnPause.setEnabled(true);
+                btnCancel.setEnabled(true);
+
+                //Specify the current state is not paused and canceled.
+                isPaused = false;
+                isCanceled = false;
+
+                //Initialize a new CountDownTimer instance
+                long millisInFuture = timeRemaining;
+                long countDownInterval = 1000;
+                new CountDownTimer(millisInFuture, countDownInterval){
+
+
+                    public void onTick(long millisUntilFinished){
+                        //Do something in every tick
+                        if(isPaused || isCanceled)
+                        {
+                            //If user requested to pause or cancel the count down timer
+                            cancel();
+                        }
+                        else {
+                            tView.setText("" + (millisUntilFinished) / 1000 + " seconds");
+                            //Put count down timer remaining time in a variable
+                            timeRemaining = millisUntilFinished;
+                        }
+                    }
+                    public void onFinish(){
+                        //Do something when count down finished
+                        //Disable other buttons
+                        btnPause.setEnabled(false);
+                        btnResume.setEnabled(false);
+                        btnCancel.setEnabled(false);
+                        three_points.setEnabled(false);
+                        one_points.setEnabled(false);
+                        two_points.setEnabled(false);
+                        three_pointsB.setEnabled(false);
+                        one_pointsB.setEnabled(false);
+                        two_pointsB.setEnabled(false);
+
+                        //Enable the start button
+                        btnStart.setEnabled(true);
+
+
+
+                        if(scoreTeamA > scoreTeamB) {
+                            tView.setText("Aka won");
+                        }
+                        if (scoreTeamA == scoreTeamB){
+                            tView.setText("Draw!");
+                        }
+                        if(scoreTeamB > scoreTeamA){
+                            tView.setText("Ao won");
+                        }
+                    }
+                }.start();
+
+                //Set a Click Listener for cancel/stop button
+                //i had to do this twice intentioannly for a bug
+                btnCancel.setOnClickListener(new OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        //When user request to cancel the CountDownTimer
+                        isCanceled = true;
+
+                        //Disable the cancel, pause and resume button
+                        three_points.setEnabled(false);
+                        one_points.setEnabled(false);
+                        two_points.setEnabled(false);
+                        three_pointsB.setEnabled(false);
+                        one_pointsB.setEnabled(false);
+                        two_pointsB.setEnabled(false);
+                        btnPause.setEnabled(false);
+                        btnResume.setEnabled(false);
+                        btnCancel.setEnabled(false);
+                        //Enable the start button
+                        btnStart.setEnabled(true);
+
+
+                        //if else statement for choosing the winner incase users force stops
+                        if(scoreTeamA > scoreTeamB) {
+                            tView.setText("Aka won");
+                        }
+                        if (scoreTeamA == scoreTeamB){
+                            tView.setText("Draw!");
+                        }
+                        if(scoreTeamB > scoreTeamA){
+                            tView.setText("Ao won");
+                        }
+                    }
+                });
+            }
+        });
+
+        //Set a Click Listener for cancel/stop button
+        btnCancel.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View v){
+                //When user request to cancel the CountDownTimer
+                isCanceled = true;
+
+                //Disable the cancel, pause and resume button
+                three_points.setEnabled(false);
+                one_points.setEnabled(false);
+                two_points.setEnabled(false);
+                three_pointsB.setEnabled(false);
+                one_pointsB.setEnabled(false);
+                two_pointsB.setEnabled(false);
+
+                btnPause.setEnabled(false);
+                btnResume.setEnabled(false);
+                btnCancel.setEnabled(false);
+                //Enable the start button
+                btnStart.setEnabled(true);
+
+                if(scoreTeamA > scoreTeamB) {
+                    tView.setText("Aka won");
+                }
+                if (scoreTeamA == scoreTeamB){
+                    tView.setText("Draw!");
+                }
+                if(scoreTeamB > scoreTeamA){
+                    tView.setText("Ao won");
+                }
+            }
+        });
+
     }
 
     public void threePointsTeamA(View v) {
@@ -73,218 +342,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         displayForTeamB(scoreTeamB);
     }
 
-    public void resetScore(View v){
+    public void resetScore(View v) {
         scoreTeamA = 0;
         scoreTeamB = 0;
         displayForTeamA(scoreTeamA);
         displayForTeamB(scoreTeamB);
-    }
-
-    private long timeCountInMilliSeconds = 1 * 60000;
-
-    private enum TimerStatus {
-        STARTED,
-        STOPPED
-    }
-
-    private TimerStatus timerStatus = TimerStatus.STOPPED;
-
-    private EditText editTextMinute;
-    private TextView textViewTime;
-    private ImageView imageViewReset;
-    private ImageView imageViewStartStop;
-    private CountDownTimer countDownTimer;
-    private Button TimerStop;
-    private Button TimerStart;
-    private Button TimerPause;
-    private Button TimerResume;
-    private Timer timer;
-
-
-
-
-    /**
-     * method to initialize the views
-     */
-    private void initViews() {
-        editTextMinute = (EditText) findViewById(R.id.editTextMinute);
-        textViewTime = (TextView) findViewById(R.id.textViewTime);
-        imageViewReset = (ImageView) findViewById(R.id.imageViewReset);
-        imageViewStartStop = (ImageView) findViewById(R.id.imageViewStartStop);
-        TimerStop = (Button) findViewById(R.id.TimerStop);
-        TimerStart = (Button) findViewById(R.id.TimerStart);
-        TimerPause = (Button) findViewById(R.id.TimerPause);
-        TimerResume = (Button) findViewById(R.id.TimerResume);
-    }
-
-    /**
-     * method to initialize the click listeners
-     */
-    private void initListeners() {
-        imageViewReset.setOnClickListener(this);
-        imageViewStartStop.setOnClickListener(this);
-        TimerStart.setOnClickListener(this);
-        TimerStop.setOnClickListener(this);
-        TimerPause.setOnClickListener(this);
-        TimerResume.setOnClickListener(this);
-    }
-
-    /**
-     * implemented method to listen clicks
-     *
-     * @param view
-     */
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.imageViewReset:
-                reset();
-                break;
-            case R.id.imageViewStartStop:
-                startStop();
-                break;
-            case R.id.TimerStart:
-                startStop();
-                break;
-            case R.id.TimerStop:
-                startStop();
-                break;
-            case R.id.TimerPause:
-                break;
-            case R.id.TimerResume:
-                break;
-        }
-    }
-
-    /**
-     * method to reset count down timer
-     */
-    private void reset() {
-        stopCountDownTimer();
-        startCountDownTimer();
-    }
-
-
-    /**
-     * method to start and stop count down timer
-     */
-    private void startStop() {
-        if (timerStatus == TimerStatus.STOPPED) {
-
-            // call to initialize the timer values
-            setTimerValues();
-            // showing the reset icon
-            imageViewReset.setVisibility(View.VISIBLE);
-            // Showing stop button
-            TimerStop.setVisibility(View.VISIBLE);
-            //Removing the Start Button
-            TimerStart.setVisibility(View.GONE);
-            // changing play icon to stop icon
-            imageViewStartStop.setImageResource(R.drawable.icon_stop);
-            // making edit text not editable
-            editTextMinute.setEnabled(false);
-            // changing the timer status to started
-            timerStatus = TimerStatus.STARTED;
-            // call to start the count down timer
-            startCountDownTimer();
-
-        } else {
-
-            // hiding the reset icon
-            imageViewReset.setVisibility(View.GONE);
-            //Hiding yhr Stop button
-            TimerStop.setVisibility(View.GONE);
-            //Showing the Start button
-            TimerStart.setVisibility(View.VISIBLE);
-            // changing stop icon to start icon
-            imageViewStartStop.setImageResource(R.drawable.icon_start);
-            // making edit text editable
-            editTextMinute.setEnabled(true);
-            // changing the timer status to stopped
-            timerStatus = TimerStatus.STOPPED;
-            stopCountDownTimer();
-
-        }
-
-    }
-
-    /**
-     * method to initialize the values for count down timer
-     */
-    public void setTimerValues() {
-        int time = 0;
-        if (!editTextMinute.getText().toString().isEmpty()) {
-            // fetching value from edit text and type cast to integer
-            time = Integer.parseInt(editTextMinute.getText().toString().trim());
-        } else {
-            // toast message to fill edit text
-            Toast.makeText(getApplicationContext(), getString(R.string.message_minutes), Toast.LENGTH_LONG).show();
-        }
-        // assigning values after converting to milliseconds
-        timeCountInMilliSeconds = time * 60 * 1000;
-    }
-
-    /**
-     * method to start count down timer
-     */
-    private void startCountDownTimer() {
-
-        countDownTimer = new CountDownTimer(timeCountInMilliSeconds, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-                textViewTime.setText(hmsTimeFormatter(millisUntilFinished));
-
-
-            }
-
-            @Override
-            public void onFinish() {
-
-                textViewTime.setText(hmsTimeFormatter(timeCountInMilliSeconds));
-                // Hiding the Stop Button
-                TimerStop.setVisibility(View.GONE);
-                //Showing the Start button
-                TimerStart.setVisibility(View.VISIBLE);
-                // hiding the reset icon
-                imageViewReset.setVisibility(View.GONE);
-                // changing stop icon to start icon
-                imageViewStartStop.setImageResource(R.drawable.icon_start);
-                // making edit text editable
-                editTextMinute.setEnabled(true);
-                // changing the timer status to stopped
-                timerStatus = TimerStatus.STOPPED;
-            }
-
-        }.start();
-        countDownTimer.start();
-    }
-
-    /**
-     * method to stop count down timer
-     */
-    private void stopCountDownTimer() {
-        countDownTimer.cancel();
-    }
-
-    /**
-     * method to set circular progress bar values
-
-    /**
-     * method to convert millisecond to time format
-     *
-     * @param milliSeconds
-     * @return HH:mm:ss time formatted string
-     */
-    private String hmsTimeFormatter(long milliSeconds) {
-
-        String hms = String.format("%02d:%02d:%02d",
-                TimeUnit.MILLISECONDS.toHours(milliSeconds),
-                TimeUnit.MILLISECONDS.toMinutes(milliSeconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliSeconds)),
-                TimeUnit.MILLISECONDS.toSeconds(milliSeconds) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliSeconds)));
-
-        return hms;
-
-
     }
 }
