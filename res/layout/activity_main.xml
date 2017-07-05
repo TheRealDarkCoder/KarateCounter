@@ -2,79 +2,63 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".MainActivity"
+    >
 
-    <EditText
-        android:id="@+id/editTextMinute"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/btn_start"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
-        android:hint="@string/hint_minute"
-        android:inputType="number"
-        android:maxLength="20"
-        android:maxLines="1"
-        android:minEms="5"
-        android:textColor="@color/colorYellow"
-        android:textColorHint="@color/colorYellow"
-        android:paddingTop="360dp"
-        android:paddingLeft="24dp"/>
+        android:layout_width="wrap_content"
+        android:text="Start"
+        android:layout_alignParentBottom="true"
+        />
+    <Button
+        android:id="@+id/btn_pause"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Pause"
+        android:layout_toRightOf="@id/btn_start"
+        android:layout_alignParentBottom="true"
+        />
+    <Button
+        android:id="@+id/btn_resume"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Resume"
+        android:layout_toRightOf="@id/btn_pause"
+        android:layout_alignParentBottom="true"
+        />
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Stop"
+        android:layout_toRightOf="@id/btn_resume"
+        android:layout_alignParentBottom="true"
+        />
 
     <TextView
-        android:layout_centerHorizontal="true"
-        android:id="@+id/textViewTime"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv"
         android:layout_height="wrap_content"
-        android:text="00:00:00"
-        android:textColor="@color/colorYellow"
-        android:textSize="40sp"
-        android:paddingTop="120dp"/>
-
-    <ImageView
-        android:id="@+id/imageViewReset"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_below="@+id/textViewTime"
+        android:layout_width="wrap_content"
+        android:text="Timer not started"
+        android:textSize="15dp"
         android:layout_centerInParent="true"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/icon_reset"
-        android:visibility="gone" />
+        android:paddingTop="200dp"
+        android:textColor="#000000"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        />
 
-    <ImageView
-        android:id="@+id/imageViewStartStop"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="350dp"
-        android:src="@drawable/icon_start"/>
-
-    <Button
+    <EditText
+        android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Timer Start"
-        android:id="@+id/TimerStart"/>
-
-    <Button
-        android:id="@+id/TimerStop"
-        android:layout_below="@id/TimerStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Timer Stop" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/TimerStop"
-        android:text="Timer Pause"
-        android:id="@+id/TimerPause"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Timer Resume"
-        android:id="@+id/TimerResume"
-        android:layout_below="@id/TimerPause"/>
-
+        android:layout_below="@id/tv"
+        android:hint="minutes only"
+        android:layout_centerInParent="true"/>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -220,9 +204,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_below="@+id/tv">
 
         <Button
+            android:id="@+id/reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Reset Score"
